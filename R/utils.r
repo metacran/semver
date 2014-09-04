@@ -38,3 +38,12 @@ rematch <- function(pattern, text, global = FALSE) {
 
   res
 }
+
+`%||%` <- function(lhs, rhs) {
+  lres <- withVisible(eval(lhs, envir = parent.frame()))
+  if (! lres$value) {
+    eval(rhs, envir = parent.frame())
+  } else {
+    if (lres$visible) { lres$value } else { invisible(lres$value) }
+  }
+}

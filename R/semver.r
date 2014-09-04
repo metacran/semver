@@ -105,13 +105,13 @@ sv_print <- function(self, private, ...) {
 
 sv_compare <- function(self, private, other) {
   if (! is(other, "semver")) { other = semver$new(other, self$loose) }
-  private$compare_main(other) || private$compare_pre(other)
+  private$compare_main(other) %||% private$compare_pre(other)
 }
 
 sv_compare_main <- function(self, private, other) {
   if (!is(other, "semver")) { other = semver$new(other, self$loose) }
-  (private$compare_identifiers(self$major, other$major) ||
-   private$compare_identifiers(self$minor, other$minor) ||
+  (private$compare_identifiers(self$major, other$major) %||%
+   private$compare_identifiers(self$minor, other$minor) %||%
    private$compare_identifiers(self$patch, other$patch))
 }
 
