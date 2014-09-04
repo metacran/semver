@@ -138,8 +138,8 @@ sv_compare_pre <- function(self, private, other) {
     }
     a <- self$prerelease[[i]]
     b <- other$prerelease[[i]]
-    if (! identical(a, b)) {
-      return(self$compare_identifiers(a, b))
+    if (! identical(a, b)){
+      return(private$compare_identifiers(a, b))
     }
     i <- i + 1
   }
