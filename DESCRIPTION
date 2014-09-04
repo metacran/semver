@@ -9,6 +9,7 @@ LazyData: true
 Imports:
     R6
 Collate:
+    'func.r'
     'utils.r'
     'regexp.r'
     'semver-package.r'
