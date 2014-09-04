@@ -6,3 +6,10 @@ Description: Semantic versioning is an effort to standardize
     version strings for software.
 License: MIT + file LICENSE
 LazyData: true
+Imports:
+    R6
+Collate:
+    'utils.r'
+    'regexp.r'
+    'semver-package.r'
+    'semver.r'
