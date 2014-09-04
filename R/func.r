@@ -64,3 +64,12 @@ cmp <- function(a, op = "==", b, loose = FALSE) {
   else if (op == "<=") { lte(a, b, loose) }
   else { stop("Invalid operator: %s", as.character(op)) }
 }
+
+#' @export
+
+inc <- function(version, release, loose = FALSE) {
+  tryCatch(
+    semver$new(version, loose)$inc(release)$version,
+    error = function(e) NULL
+  )
+}

@@ -96,8 +96,93 @@ sv_format <- function(self, private) {
 
 sv_inc <- function(self, private, release = c("premajor", "preminor",
   "prepatch", "prerelease", "major", "minor", "patch", "pre")) {
+
   release <- match.arg(release)
-  TODO
+
+  if (release == "premajor") {
+    self$prerelease <- list()
+    self$patch <- 0
+    self$minor <- 0
+    self$major <- self$major + 1
+    self$inc("pre")
+
+  } else if (release == "preminor") {
+    self$prerelease <- list()
+    self$patch <- 0
+    self$minor <- self$minor + 1
+    self$inc("pre")
+
+  } else if (release == "prepatch") {
+    ## If this is already a prerelease, it will bump to the next version
+    ## drop any prereleases that might already exist, since they are not
+    ## relevant at this point.
+    self$prerelease <- list()
+    self$inc('patch')
+    self$inc('pre')
+
+  } else if (release == "prerelease") {
+    ## If the input is a non-prerelease version, this acts the same as
+    ## prepatch.
+    if (length(self$prerelease) == 0) { self$inc('patch') }
+    self$inc('pre')
+
+  } else if (release == "major") {
+    ## If this is a pre-major version, bump up to the same major version.
+    ## Otherwise increment major.
+    ## 1.0.0-5 bumps to 1.0.0
+    ## 1.1.0 bumps to 2.0.0
+    if (self$minor != 0 || self$patch != 0 || length(self$prerelease) == 0 ) {
+      self$major <- self$major + 1
+    }
+    self$minor <- 0
+    self$patch <- 0
+    self$prerelease <- list()
+
+  } else if (release == "minor") {
+    ## If this is a pre-minor version, bump up to the same minor version.
+    ## Otherwise increment minor.
+    ## 1.2.0-5 bumps to 1.2.0
+    ## 1.2.1 bumps to 1.3.0
+    if (self$patch != 0 || length(self$prerelease) == 0 ) {
+      self$minor <- self$minor + 1
+    }
+    self$patch <- 0
+    self$prerelease <- list()
+
+  } else if (release == "patch") {
+    ## If this is not a pre-release version, it will increment the patch.
+    ## If it is a pre-release it will bump up to the same patch version.
+    ## 1.2.0-5 patches to 1.2.0
+    ## 1.2.0 patches to 1.2.1
+    if (length(self$prerelease) == 0) {
+      self$patch <- self$patch + 1
+    }
+    self$prerelease = list();
+
+  } else if (release == "pre") {
+    ## This probably shouldn't be used publically.
+    ## 1.0.0 "pre" would become 1.0.0-0 which is the wrong direction.
+    if (length(self$prerelease) == 0) {
+      self$prerelease <- list(0)
+    } else {
+      i <- length(self$prerelease)
+      updated <- FALSE
+      while (i > 0) {
+        if (is.numeric(self$prerelease[[i]])) {
+          self$prerelease[[i]] <- self$prerelease[[i]] + 1
+          updated <- TRUE
+          break
+        }
+        i <- i - 1
+      }
+      if (! updated) {
+        ## didn't increment anything
+        self$prerelease <- c(self$prerelease, list(0))
+      }
+    }
+  }
+  self$format()
+  self
 }
 
 sv_print <- function(self, private, ...) {
