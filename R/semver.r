@@ -86,7 +86,8 @@ sv_create <- function(self, private, version, loose) {
 sv_format <- function(self, private) {
   self$version <- sprintf("%d.%d.%d", self$major, self$minor, self$patch)
   if (length(self$prerelease)) {
-    self$version <- self$version %+% paste(self$prerelease, collapse = ".")
+    self$version <- self$version %+% "-" %+%
+      paste(self$prerelease, collapse = ".")
   }
   self$version
 }
