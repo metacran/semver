@@ -1,8 +1,10 @@
 
-check_string <- function(x) {
-  if (!is.character(x) || length(x) != 1) {
+check_string <- function(x, should_stop = TRUE) {
+  res <- is.character(x) && length(x) == 1
+  if (!res && should_stop) {
     stop("Need character scalar", call. = FALSE)
   }
+  res
 }
 
 `%+%` <- function(lhs, rhs) {

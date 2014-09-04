@@ -50,7 +50,9 @@ sv_create <- function(self, private, version, loose) {
       version <- version$version
     }
   } else {
-    check_string(version)
+    if (!check_string(version, should_stop = FALSE)) {
+      stop("Invalid version ", version)
+    }
   }
 
   self$loose <- loose
