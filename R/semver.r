@@ -155,6 +155,10 @@ sv_compare_identifiers <- function(a, b) {
     b <- as.numeric(b)
   }
 
+  locale <- Sys.getlocale("LC_COLLATE")
+  on.exit(Sys.setlocale("LC_COLLATE", locale), add = TRUE)
+  Sys.setlocale("LC_COLLATE", "C")
+
   if (a_num && !b_num) {
     -1L
   } else if (b_num && !a_num) {
