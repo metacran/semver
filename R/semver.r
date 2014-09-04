@@ -129,11 +129,11 @@ sv_compare_pre <- function(self, private, other) {
 
   i <- 1
   repeat {
-    if (i == length(self$prerelease) && i == length(other$prerelease)) {
+    if (i > length(self$prerelease) && i > length(other$prerelease)) {
       return(0L)
-    } else if (i == length(other$prerelease)) {
+    } else if (i > length(other$prerelease)) {
       return(1L)
-    } else if (i == length(self$prerelease)) {
+    } else if (i > length(self$prerelease)) {
       return(-1L)
     }
     a <- self$prerelease[[i]]
