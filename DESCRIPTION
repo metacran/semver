@@ -14,3 +14,5 @@ Collate:
     'regexp.r'
     'semver-package.r'
     'semver.r'
+Suggests:
+    testthat
