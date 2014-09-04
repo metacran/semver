@@ -56,7 +56,7 @@ lte <- function(a, b, loose = FALSE) {
 #' @export
 
 cmp <- function(a, op = "==", b, loose = FALSE) {
-  if (op == "==") { eq(a, b) }
+  if (op == "==") { eq(a, b, loose) }
   else if (op == "!=") { neq(a, b, loose) }
   else if (op == ">") { gt(a, b, loose) }
   else if (op == ">=") { gte(a,b, loose) }
