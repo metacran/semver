@@ -164,10 +164,10 @@ sv_compare_identifiers <- function(a, b) {
   } else if (b_num && !a_num) {
     1L
   } else if (a < b) {
-    1L
+    -1L
   } else if (a > b) {
     1L
   } else {
-    0
+    0L
   }
 }
