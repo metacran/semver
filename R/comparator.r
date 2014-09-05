@@ -61,7 +61,7 @@ comp_test <- function(self, private, version) {
 
 comp_parse <- function(self, private, comp) {
   r <- if (self$loose) src$COMPARATOR_LOOSE else src$COMPARATOR
-  m <- rematch(r, comp)
+  m <- re_match(r, comp)
 
   if (! length(m)) { stop("Invalid comparator ", comp) }
 

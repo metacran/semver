@@ -57,7 +57,7 @@ sv_create <- function(self, private, version, loose) {
 
   self$loose <- loose
 
-  m <- rematch(if (loose) src$LOOSE else src$FULL, trim(version))
+  m <- re_match(if (loose) src$LOOSE else src$FULL, trim(version))
 
   if (! length(m)) { stop("Invalid version ", version) }
 

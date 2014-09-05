@@ -19,7 +19,7 @@ trim_leading <- function (x)  sub("^\\s+", "", x)
 
 trim_trailing <- function (x) sub("\\s+$", "", x)
 
-rematch <- function(pattern, text, global = FALSE) {
+re_match <- function(pattern, text, global = FALSE) {
 
   check_string(pattern)
   check_string(text)
@@ -37,6 +37,8 @@ rematch <- function(pattern, text, global = FALSE) {
   res[ res == "" ] <- NA_character_
   res <- as.list(res)
   res$input <- text
+  res$match <- substring(text, as.vector(match),
+                         as.vector(match) + attr(match, "match.length") - 1)
 
   res
 }
@@ -47,5 +49,30 @@ rematch <- function(pattern, text, global = FALSE) {
     eval(rhs, envir = parent.frame())
   } else {
     if (lres$visible) { lres$value } else { invisible(lres$value) }
+  }
+}
+
+## callback will be called with
+## - 'match', the matching part
+## - all groups, with names if they are named
+## - 'input', the input string
+
+re_place <- function(pattern, text, replacement, callback, global = FALSE) {
+
+  if (missing(replacement) + missing(callback) != 1) {
+    stop("Give exactly one of 'replacement' and 'callback'")
+  }
+
+  if (!missing(callback)) {
+    match <- re_match(pattern, text, global = global)
+    if (length(match)) {
+      args <- c(match["match"], match[ names(match) == "" ], match["input"])
+      do.call(callback, args)
+    } else {
+      text
+    }
+  } else {
+    fun <- if (global) gsub else sub
+    fun(pattern, replacement, perl = TRUE)
   }
 }
