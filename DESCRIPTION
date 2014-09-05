@@ -9,6 +9,7 @@ LazyData: true
 Imports:
     R6
 Collate:
+    'comparator.r'
     'func.r'
     'utils.r'
     'regexp.r'

@@ -2,11 +2,13 @@
 
 export(SEMVER_SPEC_VERSION)
 export(cmp)
+export(comparator)
 export(compare)
 export(compare_loose)
 export(eq)
 export(gt)
 export(gte)
+export(inc)
 export(lt)
 export(lte)
 export(neq)
