@@ -98,7 +98,7 @@ test_that("positive ranges", {
     expect_true(do.call(satisfies, args),
                 info = paste(args, collapse = ", "))
   })
-  
+
 })
 
 context("Negative ranges")
@@ -168,7 +168,7 @@ test_that("negative ranges", {
     expect_false(do.call(satisfies, args),
                  info = paste(args, collapse = ", "))
   })
-  
+
 })
 
 context("Valid ranges")
@@ -256,7 +256,7 @@ test_that("valid ranges", {
     expect_equal(valid_range(pre, loose), wanted,
                  info = paste(args, collapse = ", "))
   })
-  
+
 })
 
 lr_tests <- list(
@@ -274,5 +274,27 @@ test_that("loose ranges", {
     expect_error(range$new(loose), "Invalid")
     expect_equal(range$new(loose, loose = TRUE)$range, comps)
   })
-  
+
+})
+
+context("Max satisfying")
+
+test_that("max_satisfying", {
+  mtests <- list(
+    list(list('1.2.3', '1.2.4'), '1.2', '1.2.4'),
+    list(list('1.2.4', '1.2.3'), '1.2', '1.2.4'),
+    list(list('1.2.3', '1.2.4', '1.2.5', '1.2.6'), '~1.2.3', '1.2.6'),
+    list(list('1.1.0', '1.2.0', '1.2.1', '1.3.0', '2.0.0b1', '2.0.0b2',
+              '2.0.0b3', '2.0.0', '2.1.0'), '~2.0.0', '2.0.0', TRUE)
+  )
+
+  sapply(mtests, function(args) {
+    versions <- args[[1]]
+    range <- args[[2]]
+    expect <- args[[3]]
+    loose <- if (length(args) == 4) args[[4]] else FALSE
+    actual <- max_satisfying(versions, range, loose)
+    expect_equal(actual, expect, info = paste(args, collapse = ","))
+  })
+
 })

@@ -13,7 +13,14 @@ satisfies <- function(version, range, loose = FALSE) {
 #' @export
 
 max_satisfying <- function(versions, range, loose = FALSE) {
-  TODO ## (need sorting, need <, >, etc first)
+  versions <- Filter(function(version) satisfies(version, range, loose),
+                     versions)
+  if (length(versions) > 0) {
+    versions <- semver_sort(versions, loose = loose)
+    versions[[length(versions)]]
+  } else {
+    NULL
+  }
 }
 
 #' @export
