@@ -132,7 +132,7 @@ src$XRANGE_LOOSE <-
 src$LONE_TILDE <- '(?:~>?)'
 
 src$TILDE_TRIM <- '(\\s*)' %+% src$LONE_TILDE %+% '\\s+'
-tilde_trim_replace <- '$1~'
+tilde_trim_replace <- '\\1~'
 
 src$TILDE <- '^' %+% src$LONE_TILDE %+% src$XRANGE_PLAIN %+% '$'
 src$TILDE_LOOSE <- '^' %+% src$LONE_TILDE %+% src$XRANGE_PLAIN_LOOSE %+% '$'
@@ -143,7 +143,7 @@ src$TILDE_LOOSE <- '^' %+% src$LONE_TILDE %+% src$XRANGE_PLAIN_LOOSE %+% '$'
 src$LONE_CARET <- '(?:\\^)'
 
 src$CARET_TRIM <- '(\\s*)' %+% src$LONE_CARET %+% '\\s+'
-caret_trim_replace <- '$1^'
+caret_trim_replace <- '\\1^'
 
 src$CARET <- '^' %+% src$LONE_CARET %+% src$XRANGE_PLAIN %+% '$'
 src$CARET_LOOSE <- '^' %+% src$LONE_CARET %+% src$XRANGE_PLAIN_LOOSE %+% '$'
@@ -165,7 +165,7 @@ src$COMPARATOR_TRIM =
 
 ## this one has to use the /g flag
 
-comparator_trim_replace = '$1$2$3'
+comparator_trim_replace = '\\1\\2\\3'
 
 ## Something like `1.2.3 - 1.2.4`
 ## Note that these all use the loose form, because they'll be
