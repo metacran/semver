@@ -84,3 +84,8 @@ re_split <- function(text, split) {
   is_string(split)
   str_split(text, perl(split))[[1]]
 }
+
+add_class <- function(x, class) {
+  if (!is(x, class)) attr(x, "class") <- c(class, attr(x, "class"))
+  x
+}

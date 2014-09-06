@@ -382,3 +382,31 @@ test_that("Strict and loose version numbers", {
   })
 
 })
+
+context("Sorting")
+
+test_that("sorting", {
+
+  sapply(tests, function(args) {
+    v1 <- args[1:2]
+    v2 <- args[2:1]
+    wanted <- args[2:1]
+    loose <- if (length(args) == 3) args[[3]] else FALSE
+
+    found1 <- semver_sort(v1, loose = loose)
+    expect_equal(found1, wanted, info = paste(args, collapse = ","))
+
+    found2 <- semver_sort(v2, loose = loose)
+    expect_equal(found2, wanted, info = paste(args, collapse = ","))
+
+    v3 <- lapply(args[1:2], semver$new)
+    v4 <- lapply(args[2:1], semver$new)
+    wanted2 <- v4
+
+    found3 <- semver_sort(v3, loose = loose)
+    expect_equal(found3, wanted2, info = paste(args, collapse = ","))
+
+    found4 <- semver_sort(v4, loose = loose)
+    expect_equal(found4, wanted2, info = paste(args, collapse = ","))
+  })
+})

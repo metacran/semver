@@ -73,3 +73,21 @@ inc <- function(version, release, loose = FALSE) {
     error = function(e) NULL
   )
 }
+
+`[.semver_list` <- function(x, i) {
+  add_class(unclass(x)[i], "semver_list")
+}
+`>.semver_list` <- function(a, b) {
+  a[[1]] > b[[1]]
+}
+`==.semver_list` <- function(a, b) {
+  a[[1]] == b[[1]]
+}
+
+#' @export
+
+semver_sort <- function(list, loose = FALSE) {
+  list2 <- lapply(list, function(x) semver$new(x, loose = loose))
+  class(list2) <- "semver_list"
+  list[order(list2)]
+}
