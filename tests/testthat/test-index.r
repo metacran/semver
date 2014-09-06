@@ -107,6 +107,62 @@ test_that("cmp", {
   })
 })
 
+context("Operators, <")
+
+test_that("<", {
+  sapply(tests, function(args) {
+    lhs <- args[[1]]
+    rhs <- args[[2]]
+    loose <- if (length(args) == 3) args[[3]] else FALSE
+    expect_true(semver$new(rhs, loose) < lhs,
+                info = paste(args, collapse = ","))
+  })
+})
+
+context("Operators, >")
+
+test_that(">", {
+  sapply(tests, function(args) {
+    lhs <- args[[1]]
+    rhs <- args[[2]]
+    loose <- if (length(args) == 3) args[[3]] else FALSE
+    expect_true(semver$new(lhs, loose) > rhs,
+                info = paste(args, collapse = ","))
+  })
+})
+
+context("Operators, ==")
+
+test_that("==", {
+  sapply(tests, function(args) {
+    lhs <- args[[1]]
+    rhs <- args[[2]]
+    loose <- if (length(args) == 3) args[[3]] else FALSE
+    expect_true(semver$new(lhs, loose) == lhs,
+                info = paste(args, collapse = ","))
+  })
+
+  sapply(tests, function(args) {
+    lhs <- args[[1]]
+    rhs <- args[[2]]
+    loose <- if (length(args) == 3) args[[3]] else FALSE
+    expect_true(semver$new(rhs, loose) == rhs,
+                info = paste(args, collapse = ","))
+  })
+})
+
+context("Operators, !=")
+
+test_that("!=", {
+  sapply(tests, function(args) {
+    lhs <- args[[1]]
+    rhs <- args[[2]]
+    loose <- if (length(args) == 3) args[[3]] else FALSE
+    expect_true(semver$new(lhs, loose) != rhs,
+                info = paste(args, collapse = ","))
+  })
+})
+
 tests2 <- list(
   c('1.2.3', 'v1.2.3', TRUE),
   c('1.2.3', '=1.2.3', TRUE),
@@ -213,6 +269,78 @@ test_that("cmp", {
     args <- c(args[1], "!=", args[2:length(args)])
     expect_false(do.call(cmp, as.list(args)),
                  info = paste(args, collapse = ","))
+  })
+})
+
+context("Equality tests, ==")
+
+test_that("eq ==", {
+  sapply(tests2, function(args) {
+    lhs <- args[[1]]
+    rhs <- args[[2]]
+    loose <- if (length(args) == 3) args[[3]] else FALSE
+    expect_true(semver$new(lhs, loose) == rhs,
+                info = paste(args, collapse = ","))
+  })
+})
+
+context("Equality tests, !=")
+
+test_that("eq !=", {
+  sapply(tests2, function(args) {
+    lhs <- args[[1]]
+    rhs <- args[[2]]
+    loose <- if (length(args) == 3) args[[3]] else FALSE
+    expect_false(semver$new(lhs, loose) != rhs,
+                 info = paste(args, collapse = ","))
+  })
+})
+
+context("Equality tests, >")
+
+test_that("eq >", {
+  sapply(tests2, function(args) {
+    lhs <- args[[1]]
+    rhs <- args[[2]]
+    loose <- if (length(args) == 3) args[[3]] else FALSE
+    expect_false(semver$new(lhs, loose) > rhs,
+                 info = paste(args, collapse = ","))
+  })
+})
+
+context("Equality tests, >=")
+
+test_that("eq >=", {
+  sapply(tests2, function(args) {
+    lhs <- args[[1]]
+    rhs <- args[[2]]
+    loose <- if (length(args) == 3) args[[3]] else FALSE
+    expect_true(semver$new(lhs, loose) >= rhs,
+                info = paste(args, collapse = ","))
+  })
+})
+
+context("Equality tests, <")
+
+test_that("eq <", {
+  sapply(tests2, function(args) {
+    lhs <- args[[1]]
+    rhs <- args[[2]]
+    loose <- if (length(args) == 3) args[[3]] else FALSE
+    expect_false(semver$new(lhs, loose) < rhs,
+                 info = paste(args, collapse = ","))
+  })
+})
+
+context("Equality tests, <=")
+
+test_that("eq <=", {
+  sapply(tests2, function(args) {
+    lhs <- args[[1]]
+    rhs <- args[[2]]
+    loose <- if (length(args) == 3) args[[3]] else FALSE
+    expect_true(semver$new(lhs, loose) <= rhs,
+                info = paste(args, collapse = ","))
   })
 })
 

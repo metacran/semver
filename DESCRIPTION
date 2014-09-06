@@ -12,6 +12,7 @@ Collate:
     'comparator.r'
     'func-range.r'
     'func.r'
+    'operators.r'
     'range.r'
     'utils.r'
     'regexp.r'
