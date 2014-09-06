@@ -15,5 +15,6 @@ Collate:
     'regexp.r'
     'semver-package.r'
     'semver.r'
+    'stringr.r'
 Suggests:
     testthat

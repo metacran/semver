@@ -1,5 +1,5 @@
 
-check_string <- function(x, should_stop = TRUE) {
+is_string <- function(x, should_stop = TRUE) {
   res <- is.character(x) && length(x) == 1
   if (!res && should_stop) {
     stop("Need character scalar", call. = FALSE)
@@ -8,8 +8,8 @@ check_string <- function(x, should_stop = TRUE) {
 }
 
 `%+%` <- function(lhs, rhs) {
-  check_string(lhs)
-  check_string(rhs)
+  is_string(lhs)
+  is_string(rhs)
   paste0(lhs, rhs)
 }
 
@@ -21,8 +21,8 @@ trim_trailing <- function (x) sub("\\s+$", "", x)
 
 re_match <- function(pattern, text, global = FALSE) {
 
-  check_string(pattern)
-  check_string(text)
+  is_string(pattern)
+  is_string(text)
 
   fun <- if (global) gregexpr else regexpr
 
@@ -33,12 +33,15 @@ re_match <- function(pattern, text, global = FALSE) {
   g_start <- attr(match, "capture.start")
   g_length <- attr(match, "capture.length")
 
-  res <- substring(text, g_start, g_start + g_length - 1)
-  res[ res == "" ] <- NA_character_
-  res <- as.list(res)
-  res$input <- text
+  res <- list()
   res$match <- substring(text, as.vector(match),
                          as.vector(match) + attr(match, "match.length") - 1)
+  res2 <- ifelse(g_start > 0,
+                 substring(text, g_start, g_start + g_length - 1),
+                 NA_character_)
+  res2 <- as.list(res2)
+  res <- c(res, res2)
+  res$input <- text
 
   res
 }
@@ -66,13 +69,18 @@ re_place <- function(pattern, text, replacement, callback, global = FALSE) {
   if (!missing(callback)) {
     match <- re_match(pattern, text, global = global)
     if (length(match)) {
-      args <- c(match["match"], match[ names(match) == "" ], match["input"])
-      do.call(callback, args)
+      do.call(callback, match)
     } else {
       text
     }
   } else {
     fun <- if (global) gsub else sub
-    fun(pattern, replacement, perl = TRUE)
+    fun(pattern, replacement, text, perl = TRUE)
   }
+}
+
+re_split <- function(text, split) {
+  is_string(text)
+  is_string(split)
+  str_split(text, perl(split))[[1]]
 }

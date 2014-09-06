@@ -50,7 +50,7 @@ sv_create <- function(self, private, version, loose) {
       version <- version$version
     }
   } else {
-    if (!check_string(version, should_stop = FALSE)) {
+    if (!is_string(version, should_stop = FALSE)) {
       stop("Invalid version ", version)
     }
   }
@@ -63,23 +63,23 @@ sv_create <- function(self, private, version, loose) {
 
   self$raw <- version
 
-  self$major <- as.numeric(m[[1]])
-  self$minor <- as.numeric(m[[2]])
-  self$patch <- as.numeric(m[[3]])
+  self$major <- as.numeric(m[[2]])
+  self$minor <- as.numeric(m[[3]])
+  self$patch <- as.numeric(m[[4]])
 
-  if (is.na(m[[4]])) {
+  if (is.na(m[[5]])) {
     self$prerelease <- list()
   } else {
-    ids <- strsplit(m[[4]], "\\.")[[1]]
+    ids <- strsplit(m[[5]], "\\.")[[1]]
     self$prerelease <- lapply(ids, function(id) {
       if (grepl("^[0-9]+$", id)) as.numeric(id) else  id
     })
   }
 
-  self$build <- if (is.na(m[[5]])) {
+  self$build <- if (is.na(m[[6]])) {
     list()
   } else {
-    as.list(strsplit(m[[5]], "\\.")[[1]])
+    as.list(strsplit(m[[6]], "\\.")[[1]])
   }
 
   self$format()
