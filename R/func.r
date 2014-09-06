@@ -56,13 +56,13 @@ lte <- function(a, b, loose = FALSE) {
 #' @export
 
 cmp <- function(a, op = "==", b, loose = FALSE) {
-  if (op == "==") { eq(a, b, loose) }
+  if (op %in% c("", "=", "==")) { eq(a, b, loose) }
   else if (op == "!=") { neq(a, b, loose) }
   else if (op == ">") { gt(a, b, loose) }
   else if (op == ">=") { gte(a,b, loose) }
   else if (op == "<") { lt(a, b, loose) }
   else if (op == "<=") { lte(a, b, loose) }
-  else { stop("Invalid operator: %s", as.character(op)) }
+  else { stop("Invalid operator: ", as.character(op)) }
 }
 
 #' @export
