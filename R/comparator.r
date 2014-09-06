@@ -20,7 +20,9 @@ comparator <- R6Class("comparator",
     test = function(version) { comp_test(self, private, version) }
   ),
   private = list(
-    parse = function(comp) { comp_parse(self, private, version) }
+    parse = function(comp, loose = FALSE) {
+      comp_parse(self, private, comp, loose)
+    }
   )
 )
 
@@ -38,7 +40,7 @@ comp_new <- function(self, private, comp, loose) {
   }
 
   self$loose <- loose
-  self$parse(comp)
+  private$parse(comp)
 
   if (is_any(self$semver)) {
     self$value <- ""
@@ -59,17 +61,18 @@ comp_test <- function(self, private, version) {
   }
 }
 
-comp_parse <- function(self, private, comp) {
+comp_parse <- function(self, private, comp, loose) {
   r <- if (self$loose) src$COMPARATOR_LOOSE else src$COMPARATOR
   m <- re_match(r, comp)
 
   if (! length(m)) { stop("Invalid comparator ", comp) }
 
   self$operator <- m[[2]]
+  if (is.na(self$operator)) { self$operator = "" }
   if (self$operator == "=") { self$operator = "" }
 
   ## if it literally is just '>' or '' then allow anything.
-  if (!m[[3]]) {
+  if (is.na(m[[3]])) {
     self$semver = ANY;
   } else {
     self$semver = semver$new(m[[3]], self$loose)
