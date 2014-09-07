@@ -46,14 +46,29 @@ re_match <- function(pattern, text, global = FALSE) {
   res
 }
 
-`%||%` <- function(lhs, rhs) {
-  lres <- withVisible(eval(lhs, envir = parent.frame()))
-  if (! lres$value) {
-    eval(rhs, envir = parent.frame())
-  } else {
-    if (lres$visible) { lres$value } else { invisible(lres$value) }
-  }
+is_falsy <- function(x) {
+  is.null(x) ||
+    identical(x, FALSE) ||
+    identical(x, 0L) ||
+    identical(x, 0) ||
+    identical(x, 0+0i) ||
+    identical(x, raw(1)) ||
+    identical(x, "")
 }
+
+is_truthy <- function(x) {
+  ! is_falsy(x)
+}
+
+nay <- is_falsy
+
+`%||%` <- function(lhs, rhs) {
+  if (is_truthy(lhs)) lhs else rhs
+}
+
+`%===%` <- function(...) identical(...)
+
+`%!==%` <- function(...) ! identical(...)
 
 ## callback will be called with
 ## - 'match', the matching part
