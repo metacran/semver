@@ -91,3 +91,26 @@ semver_sort <- function(list, loose = FALSE) {
   class(list2) <- "semver_list"
   list[order(list2)]
 }
+
+#' @export
+
+parse_ver <- function(version, loose = FALSE) {
+  r <- if (loose) src$LOOSE else src$FULL
+  if (grepl(r, version, perl = TRUE)) semver$new(version, loose) else NULL
+}
+
+#' @export
+
+valid <- function(version, loose = FALSE) {
+  v <- parse_ver(version, loose)
+  if (!is.null(v)) v$version else NULL
+}
+
+#' @export
+
+clean <- function(version, loose = FALSE) {
+  version <- trim(version)
+  version <- re_place("^[=v]+", version, replacement = "")
+  s <- parse_ver(version, loose)
+  if (!is.null(s)) s$version else NULL
+}
