@@ -24,7 +24,7 @@ range <- R6Class("range",
 
 ra_new <- function(self, private, range, loose = FALSE) {
 
-  if (is(range, "range") && range.loose == loose) {
+  if (is(range, "range") && range$loose == loose) {
     self$loose <- range$loose
     self$raw <- range$raw
     self$set <- range$set
