@@ -74,12 +74,23 @@ inc <- function(version, release, loose = FALSE) {
   )
 }
 
+#' @method "[" semver_list
+#' @export
+
 `[.semver_list` <- function(x, i) {
   add_class(unclass(x)[i], "semver_list")
 }
+
+#' @method ">" semver_list
+#' @export
+
 `>.semver_list` <- function(a, b) {
   a[[1]] > b[[1]]
 }
+
+#' @method "==" semver_list
+#' @export
+
 `==.semver_list` <- function(a, b) {
   a[[1]] == b[[1]]
 }
