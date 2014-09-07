@@ -2,6 +2,10 @@
 ANY <- NULL
 is_any <- is.null
 
+#' Semantic version comparator
+#'
+#' TODO
+#'
 #' @export
 #' @importFrom R6 R6Class
 

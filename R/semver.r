@@ -1,6 +1,68 @@
 
 ## -----------------------------------------------------------------------
 
+#' Semantic version number
+#'
+#' An R6 class for semantic version numbers. See \url{http://semver.org}
+#' for details about semantic versioning.
+#'
+#' @section Fields:
+#' \describe{
+#'   \item{\code{raw}:}{The raw version number that was used as the input
+#'     to create a \code{semver} object.}
+#'   \item{\code{version}:}{The parsed and canonized version number string.}
+#'   \item{\code{major}:}{Major version, a number.}
+#'   \item{\code{minor}:}{Minor version, a number.}
+#'   \item{\code{patch}:}{Patch version, a number.}
+#'   \item{\code{prerelease}:}{Pre-release version strings, in a list.}
+#'   \item{\code{build}:}{Build strings, in a list.}
+#'   \item{\code{loose}:}{Logical scalar, whether to allow (slightly)
+#'     invalid version strings.}
+#' }
+#'
+#' @section Method \code{new}:
+#'
+#' \preformatted{semver$new(version, loose = FALSE)}
+#'
+#' \subsection{Arguments}{
+#'   \describe{
+#'     \item{\code{version}:}{Version string.}
+#'     \item{\code{loose}:}{Whether loose strings are allowed.}
+#'   }
+#' }
+#'
+#' \subsection{Description:}{
+#'   Create a new \code{semver} object.
+#' }
+#' 
+#' @section Method \code{compare}:
+#'
+#' TODO
+#' 
+#' @section Method \code{format}:
+#'
+#' TODO
+#' 
+#' @section Method \code{inc}:
+#'
+#' TODO
+#' 
+#' @section Method \code{print}:
+#'
+#' \preformatted{object$print(\dots)}
+#'
+#' \subsection{Arguments}{
+#'   \describe{
+#'     \item{\dots}{Currently ignored}
+#'   }
+#' }
+#'
+#' \subsection{Description:}{
+#'   This method is called automatically when a \code{semver} object
+#'   is printed to the R console.
+#' }
+#'
+#' @docType class
 #' @importFrom R6 R6Class
 #' @export
 

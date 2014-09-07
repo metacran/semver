@@ -1,4 +1,12 @@
 
+#' Check if a semantic version number satisfies a range requirement
+#'
+#' TODO
+#'
+#' @param version Version string or \code{semver} object.
+#' @param range Range requirement string or \code{range} object.
+#' @param loose Whether non-strict versions are allowed.
+#' 
 #' @export
 
 satisfies <- function(version, range, loose = FALSE) {
@@ -10,6 +18,15 @@ satisfies <- function(version, range, loose = FALSE) {
   range$test(version)
 }
 
+#' Choose the newest version that satisfies a range requirement
+#'
+#' TODO
+#'
+#' @param versions List or vector of version strings or \code{semver}
+#'   objects.
+#' @param range Range requirement string or \code{range} object.
+#' @param loose Whether non-strict versions are allowed.
+#' 
 #' @export
 
 max_satisfying <- function(versions, range, loose = FALSE) {
@@ -23,6 +40,13 @@ max_satisfying <- function(versions, range, loose = FALSE) {
   }
 }
 
+#' Check if a range requirement specification is valid
+#'
+#' TODO
+#'
+#' @param range Range requirement string.
+#' @param loose Whether loose ranges are allowed.
+#' 
 #' @export
 
 valid_range <- function(range, loose = FALSE) {
@@ -36,12 +60,26 @@ valid_range <- function(range, loose = FALSE) {
   }
 }
 
+#' Check if a version is older than a range requirement
+#'
+#' TODO
+#'
+#' @param version Version string or \code{semver} object.
+#' @param range Range requirement string or \code{range} object.
+#' @param loose Whether loose ranges are allowed.
+#' 
 #' @export
 
 ltr <- function(version, range, loose = FALSE) {
   outside(version, range, "<", loose)
 }
 
+#' Check if a version is newer than a range requirement
+#'
+#' @param version Version string or \code{semver} object.
+#' @param range Range requirement string or \code{range} object.
+#' @param loose Whether loose ranges are allowed.
+#' 
 #' @export
 
 gtr <- function(version, range, loose = FALSE) {
